@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FL Text Viewer',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Load a text file',
+        tooltip: 'Open a text file',
         child: const Icon(Icons.add),
         onPressed: () async {
           var result = await FilePicker.platform.pickFiles();
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context) {
                   return Scaffold(
                     appBar: AppBar(
-                      title: const Text('Pushed widget'),
+                      title: Text(path),
                     ),
                     body: Text(text),
                   );
