@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -49,8 +51,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _shownText = 'Hello, World!';
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -59,6 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      print(result.files.single.path);
+    }
   }
 
   @override
@@ -102,13 +110,32 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            Text(
+              '$_shownText',
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Load a text file',
         child: const Icon(Icons.add),
+        onPressed: () async {
+          var result = await FilePicker.platform.pickFiles();
+          if (result != null) {
+            print('path: ${result.files.single.path}');
+            var path = result.files.single.path;
+            if (path == null) {
+              return;
+            }
+            var file = File(path);
+            file.readAsString().then((text) {
+              print('text: ${text}');
+              setState(() {
+              _shownText = text;
+              });
+            });
+          }
+        },
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
