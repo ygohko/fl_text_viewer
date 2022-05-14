@@ -41,9 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Choose a text file to open it.',
-            ),
+            Text('Choose a text file to open it.'),
           ],
         ),
       ),
@@ -70,7 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     appBar: AppBar(
                       title: Text(path),
                     ),
-                    body: Text(text),
+                    body: SingleChildScrollView(
+                      child: Card(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Text(text),
+                        ),
+                      ),
+                    ),
                   );
                 }
               )
