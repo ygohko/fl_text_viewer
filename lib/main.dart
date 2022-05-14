@@ -29,8 +29,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _shownText = 'Hello, World!';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '$_shownText',
+              'Choose a text file to open it.',
             ),
           ],
         ),
@@ -50,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Load a text file',
         child: const Icon(Icons.add),
+        /*
         onPressed: () async {
           var result = await FilePicker.platform.pickFiles();
           if (result == null) {
@@ -68,6 +67,34 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           });
         },
+        */
+        onPressed: () async {
+          var result = await FilePicker.platform.pickFiles();
+          if (result == null) {
+            return;
+          }
+          print('path: ${result.files.single.path}');
+          var path = result.files.single.path;
+          if (path == null) {
+            return;
+          }
+          var file = File(path);
+          file.readAsString().then((text) {
+            print('text: ${text}');
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('Pushed widget'),
+                    ),
+                    body: Text(text),
+                  );
+                }
+              )
+            );
+          });
+        }
       ),
     );
   }
