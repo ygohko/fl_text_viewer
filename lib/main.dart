@@ -39,20 +39,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FL Text Viewer"),
+        title: const Text("FL Text Viewer"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Choose a text file to open it.'),
+            const Text('Choose a text file to open it.'),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              onPressed: _openFile,
+              child: const Text("Open a text file"),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Open a text file',
-        child: const Icon(Icons.add),
-        onPressed: _openFile,
       ),
     );
   }
