@@ -14,7 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FL Text Viewer',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF00003F),
+          foregroundColor: Colors.white,
+        ),
       ),
       home: const MyHomePage(),
     );
@@ -48,41 +52,42 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Open a text file',
         child: const Icon(Icons.add),
-        onPressed: () async {
-          var result = await FilePicker.platform.pickFiles();
-          if (result == null) {
-            return;
-          }
-          print('path: ${result.files.single.path}');
-          var path = result.files.single.path;
-          if (path == null) {
-            return;
-          }
-          var file = File(path);
-          file.readAsString().then((text) {
-            print('text: ${text}');
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (context) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: Text(path),
-                    ),
-                    body: SingleChildScrollView(
-                      child: Card(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Text(text),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              )
-            );
-          });
-        }
+        onPressed: _openFile,
       ),
+    );
+  }
+
+  void _openFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) {
+      return;
+    }
+    final path = result.files.single.path;
+    if (path == null) {
+      return;
+    }
+    final file = File(path);
+    file.readAsString().then((text) {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (context) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(path),
+                ),
+                body: SingleChildScrollView(
+                  child: Card(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(text),
+                    ),
+                  ),
+                ),
+              );
+            }
+          )
+        );
+      }
     );
   }
 }
