@@ -25,7 +25,9 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() {
+    return _MyHomePageState();
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -48,26 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Load a text file',
         child: const Icon(Icons.add),
-        /*
-        onPressed: () async {
-          var result = await FilePicker.platform.pickFiles();
-          if (result == null) {
-            return;
-          }
-          print('path: ${result.files.single.path}');
-          var path = result.files.single.path;
-          if (path == null) {
-            return;
-          }
-          var file = File(path);
-          file.readAsString().then((text) {
-            print('text: ${text}');
-            setState(() {
-              _shownText = text;
-            });
-          });
-        },
-        */
         onPressed: () async {
           var result = await FilePicker.platform.pickFiles();
           if (result == null) {
